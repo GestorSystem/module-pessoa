@@ -3,10 +3,393 @@
   "title": "Pessoa",
   "description": "Módulo de gerenciamento de pessoas",
   "version": "1.0.0",
-  "enabled": true,
+  "enabled": false,
   "dependencies": [
     "locations",
     "system"
   ],
-  "isSystem": false
+  "isSystem": false,
+  "interfaces": [
+    {
+      "name": "pessoas",
+      "title": "Pessoas",
+      "icon": "people",
+      "resource": "Pessoa",
+      "endpoint": "/api/pessoas",
+      "active": true,
+      "isSystem": false,
+      "config": {
+        "title": "Pessoas",
+        "icon": "people",
+        "resource": "Pessoa",
+        "endpoint": "/api/pessoas",
+        "rowKey": "id",
+        "createRoute": "/crud/pessoas/new",
+        "editRoute": "/crud/pessoas/:id",
+        "deleteMessage": "Deseja realmente excluir a pessoa \"${row.nome}\"?",
+        "deleteSuccessMessage": "Pessoa excluída com sucesso!",
+        "columns": [
+          {
+            "name": "nome",
+            "required": true,
+            "label": "Nome",
+            "align": "left",
+            "field": "nome",
+            "sortable": true,
+            "style": "min-width: 200px"
+          },
+          {
+            "name": "cpf",
+            "label": "CPF",
+            "align": "left",
+            "field": "cpf",
+            "sortable": true,
+            "style": "min-width: 120px"
+          },
+          {
+            "name": "email",
+            "required": true,
+            "label": "E-mail",
+            "align": "left",
+            "field": "email",
+            "sortable": true,
+            "style": "min-width: 200px"
+          },
+          {
+            "name": "telefone",
+            "label": "Telefone",
+            "align": "left",
+            "field": "telefone",
+            "sortable": true,
+            "style": "min-width: 130px"
+          },
+          {
+            "name": "city",
+            "label": "Cidade",
+            "align": "left",
+            "field": "City.name",
+            "sortable": true,
+            "style": "min-width: 150px"
+          },
+          {
+            "name": "state",
+            "label": "Estado",
+            "align": "left",
+            "field": "State.name",
+            "sortable": true,
+            "style": "min-width: 100px"
+          }
+        ],
+        "layouts": [
+          {
+            "title": "Informações Pessoais",
+            "rows": [
+              {
+                "cols": [
+                  {
+                    "width": "50%",
+                    "fields": [
+                      {
+                        "name": "nome",
+                        "label": "Nome Completo"
+                      }
+                    ]
+                  },
+                  {
+                    "width": "50%",
+                    "fields": [
+                      {
+                        "name": "cpf",
+                        "label": "CPF"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "cols": [
+                  {
+                    "width": "50%",
+                    "fields": [
+                      {
+                        "name": "email",
+                        "label": "E-mail",
+                        "type": "email"
+                      }
+                    ]
+                  },
+                  {
+                    "width": "50%",
+                    "fields": [
+                      {
+                        "name": "data_nascimento",
+                        "label": "Data de Nascimento",
+                        "type": "date"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "cols": [
+                  {
+                    "width": "50%",
+                    "fields": [
+                      {
+                        "name": "telefone",
+                        "label": "Telefone"
+                      }
+                    ]
+                  },
+                  {
+                    "width": "50%",
+                    "fields": [
+                      {
+                        "name": "cep"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Endereço",
+            "rows": [
+              {
+                "cols": [
+                  {
+                    "width": "100%",
+                    "fields": [
+                      {
+                        "name": "endereco"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "fields": [
+          {
+            "name": "nome",
+            "label": "Nome Completo",
+            "type": "text",
+            "rules": [
+              "val => !!val || \"Nome é obrigatório\""
+            ],
+            "hint": "Digite o nome completo da pessoa"
+          },
+          {
+            "name": "cpf",
+            "label": "CPF",
+            "type": "text",
+            "rules": [
+              "val => !!val || \"CPF é obrigatório\"",
+              "val => /^\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}$|^\\d{11}$/.test(val) || \"CPF inválido\""
+            ],
+            "mask": "###.###.###-##",
+            "hint": "Digite apenas números ou no formato 000.000.000-00"
+          },
+          {
+            "name": "email",
+            "label": "E-mail",
+            "type": "email",
+            "rules": [
+              "val => !!val || \"E-mail é obrigatório\"",
+              "val => /.+@.+\\..+/.test(val) || \"E-mail inválido\""
+            ],
+            "hint": "Digite um e-mail válido"
+          },
+          {
+            "name": "data_nascimento",
+            "label": "Data de Nascimento",
+            "type": "date",
+            "hint": "Selecione a data de nascimento"
+          },
+          {
+            "name": "telefone",
+            "label": "Telefone",
+            "type": "text",
+            "mask": "(##) #####-####",
+            "hint": "Digite o telefone com DDD"
+          },
+          {
+            "name": "endereco",
+            "label": "Endereço",
+            "type": "text",
+            "hint": "Digite o endereço completo (rua, número, complemento)"
+          },
+          {
+            "name": "country_id",
+            "label": "País",
+            "type": "select",
+            "optionsEndpoint": "/api/countries",
+            "optionLabel": "name",
+            "optionValue": "id",
+            "rules": [],
+            "hint": "Selecione o país"
+          },
+          {
+            "name": "state_id",
+            "label": "Estado",
+            "type": "select",
+            "optionsEndpoint": "/api/states",
+            "optionLabel": "name",
+            "optionValue": "id",
+            "rules": [],
+            "hint": "Selecione o estado (após escolher o país)"
+          },
+          {
+            "name": "city_id",
+            "label": "Cidade",
+            "type": "select",
+            "optionsEndpoint": "/api/cities",
+            "optionLabel": "name",
+            "optionValue": "id",
+            "rules": [],
+            "hint": "Selecione a cidade (após escolher o estado)"
+          },
+          {
+            "name": "cep",
+            "label": "CEP",
+            "type": "text",
+            "mask": "#####-###",
+            "hint": "Digite o CEP no formato 00000-000"
+          }
+        ],
+        "relations": [
+          {
+            "type": "select",
+            "modelName": "countries",
+            "label": "País",
+            "endpoint": "/api/countries",
+            "field": "Country",
+            "itemLabel": "name",
+            "itemValue": "id",
+            "payloadField": "country_id",
+            "as": "Country",
+            "clearable": true
+          },
+          {
+            "type": "select",
+            "modelName": "states",
+            "label": "Estado",
+            "endpoint": "/api/states",
+            "field": "State",
+            "itemLabel": "name",
+            "itemValue": "id",
+            "payloadField": "state_id",
+            "as": "State",
+            "dependsOn": "country_id",
+            "filterParam": "country_id",
+            "clearable": true
+          },
+          {
+            "type": "select",
+            "modelName": "cities",
+            "label": "Cidade",
+            "endpoint": "/api/cities",
+            "field": "City",
+            "itemLabel": "name",
+            "itemValue": "id",
+            "payloadField": "city_id",
+            "as": "City",
+            "dependsOn": "state_id",
+            "filterParam": "state_id",
+            "clearable": true
+          }
+        ]
+      }
+    }
+  ],
+  "menus": [
+    {
+      "name": "Pessoas",
+      "id_system": 1,
+      "id_organization": null
+    }
+  ],
+  "menuItems": [
+    {
+      "name": "Pessoas",
+      "icon": "people",
+      "route": "/crud/pessoas",
+      "target_blank": false,
+      "menuName": "Pessoas",
+      "id_system": 1,
+      "id_organization": null,
+      "id_role": null,
+      "order": 1
+    }
+  ],
+  "functions": [
+    {
+      "name": "pes.visualizar_pessoas",
+      "title": "Visualizar Pessoas"
+    },
+    {
+      "name": "pes.manter_pessoas",
+      "title": "Manter Pessoas"
+    },
+    {
+      "name": "pes.excluir_pessoas",
+      "title": "Excluir Pessoas"
+    }
+  ],
+  "cronJobs": [
+    {
+      "name": "pessoa-every-10-minutes",
+      "description": "Exemplo de cron job do módulo pessoa executado a cada 10 minutos",
+      "controller": "@gestor/pessoa/controllers/cronController",
+      "method": "runEveryTenMinutes",
+      "cronExpression": "*/30 * * * *",
+      "active": true
+    }
+  ],
+  "batchJobs": [
+    {
+      "name": "pessoa-cadastro-lote",
+      "description": "Batch job que cadastra pessoas em lote no módulo pessoa",
+      "controller": "@gestor/pessoa/controllers/batchController",
+      "method": "cadastrarPessoasEmLote",
+      "cronExpression": "*/25 * * * *",
+      "parameters": {
+        "pessoas": [
+          {
+            "nome": "João Silva",
+            "email": "joao.silva@example.com",
+            "cpf": "12345678901",
+            "telefone": "(11) 98765-4321",
+            "endereco": "Rua Exemplo, 123",
+            "data_nascimento": "1985-05-15",
+            "id_organization": 1
+          },
+          {
+            "nome": "Maria Santos",
+            "email": "maria.santos@example.com",
+            "cpf": "98765432109",
+            "telefone": "(11) 91234-5678",
+            "endereco": "Avenida Teste, 456",
+            "data_nascimento": "1990-08-20",
+            "id_organization": 1
+          }
+        ]
+      },
+      "active": true
+    }
+  ],
+  "queues": [
+    {
+      "name": "pessoa-cadastro",
+      "description": "Fila para cadastro de pessoas no módulo pessoa",
+      "controller": "@gestor/pessoa/controllers/queueController",
+      "method": "processPessoaItem",
+      "itemsPerBatch": 10,
+      "maxAttempts": 3,
+      "retryDelay": 60,
+      "active": true
+    }
+  ]
 }
