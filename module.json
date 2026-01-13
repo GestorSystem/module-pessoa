@@ -1,0 +1,12 @@
+{
+  "name": "pessoa",
+  "title": "Pessoa",
+  "description": "Módulo de gerenciamento de pessoas",
+  "version": "1.0.0",
+  "enabled": true,
+  "dependencies": [
+    "locations",
+    "system"
+  ],
+  "isSystem": false
+}

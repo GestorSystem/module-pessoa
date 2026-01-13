@@ -1,0 +1,38 @@
+{
+  "name": "@gestor/pessoa",
+  "version": "1.0.0",
+  "description": "Módulo de gerenciamento de pessoas",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "gestor",
+    "pessoa",
+    "module"
+  ],
+  "author": "",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/GestorSystem/module-pessoa.git"
+  },
+  "peerDependencies": {
+    "@gestor/system": "^1.0.0",
+    "@gestor/locations": "^1.0.0"
+  },
+  "gestor": {
+    "module": true,
+    "name": "pessoa",
+    "title": "Pessoa",
+    "description": "Módulo de gerenciamento de pessoas",
+    "version": "1.0.0",
+    "enabled": false,
+    "dependencies": [
+      "locations",
+      "system"
+    ],
+    "isSystem": false
+  }
+}
+
